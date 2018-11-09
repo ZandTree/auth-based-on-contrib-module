@@ -22,19 +22,21 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     first = models.CharField(max_length=30,blank=True)
     last_name = models.CharField(max_length=50,blank=True)
-    birth = models.DateField(blank=True)
+    birth = models.DateField(blank=True,null=True)
     bio = models.TextField(default="",max_length=300)
     location = models.CharField(max_length=30,blank=True)
     ava = models.ImageField(blank=True,null=True,upload_to=get_ava_image)
 
-    def save(self,**kwargs):
-        super().save(**kwargs)
+    def save(self,*args,**kwargs):
+        super().save(*args,**kwargs)
         if self.ava:
             image = Image.open(self.ava.path)
+            print('pppp')
             if image.height > 250 or image.width > 250:
                 output_size = (250,250)
                 img.thumbnail(output_size)
-                img.save(self.avatar.path)
+                img.save(self.ava.path)
+
     @property
     def get_name(self):
         if self.first and self.last:
@@ -44,11 +46,11 @@ class Profile(models.Model):
         else:
             return self.user.username
     @property
-    def get_ava_name(self):
+    def get_ava_image(self):
         if self.ava:
             return '/media/{}'.format(self.ava)
         else:
-            return '/static/img/default_ava.png/'
+            return '/static/img/user.svg/'
 
 @receiver(post_save,sender=User)
 def create_user(sender,instance,created,**kwargs):
