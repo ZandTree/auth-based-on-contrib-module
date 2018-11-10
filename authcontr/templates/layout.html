@@ -3,33 +3,48 @@
 {% block title %}layout {% endblock %}
 {% block content %}
 <h1>Instructions: how to work with dj.contrib.auth </h1>
-<p>Note: here used a built-in login redirect to the profile(because I did it)</p>
-<p>make an expected folder= registration for login 100% and for logout optional</p>
+<p>Note: here used a built-in login redirect to the profile</p>
+<p>make folder = registration expected by contrib for: <strong>login</strong>  + <strong>4 html files for password_reset</strong>,logout optional</p>
 <ol>
     <li>
         <ul>In urls.py
-            <li>project urlpatterns: make a clear "from accounts import urls as user_urls"</li>
-            <li>app urlpatterns: login = nvt logout = should be represented</li>
+            <li>project urlpatterns: make a clear "from accounts import urls as user_urls".
+                it's a link to accounts app with namespace='accounts' == further router for sighup and logout(with post)
+                login refers to contrib module, login = не будет refered to app accounts
+            </li>
+            <li>at the same level(project) just onder url for 'account app' </li>
+            <li>Like this:
+                <strong>
+                url(r'^accounts/',include(user_urls,namespace='accounts')),
+                url(r'^accounts/',include('django.contrib.auth.urls')),</li>
+                </strong>
         </ul>
     </li>
     <hr>
     <li>
         <ul>In views.py
-            <li>SignUp view == doesn't exist because you have to make it custom<</li>
-            <li>No need for Login in views.py == just import in urls.py from the module</li>
-            <li>You need LogoutView otherwise you'll get admin layout
-            For logout: need adjustment = reverse_lazy (to prevent built-in admin layout)</li>
+            <li><strong>SingUp</strong> view doesn't belong to contrib module, should be always created as custom<</li>
+            <li>No need for <strong>Login</strong> views.py == will be found in contrin (expect folder = register/login.html)
+            Reference therefor as 'login' and not 'accounts:login'</li>
+            <li>You need <strong>Logout</strong> otherwise you'll get admin layout
+            For logout: need adjustment = reverse_lazy (to prevent built-in admin layout) aka redirect to smth</li>
             <li>For log out: 2 options (through get and post request)</li>
         </ul>
     </li>
     <hr>
     <ul>In html's
-        <li>For login you have to make a html file with login form (username and psw)</li>
-        <li> in menu: link in url tag thorough 'accounts:login' or 'accounts:logout' otherwise built-in behav </li>
+        <li>Contrib login expects folder <strong>register/login.html</strong> with a form (username and psw)</li>
+        <li>In menu: link in url tag through 'login' (contrib module) and
+            in accounts/logout.html and accounts/signup.html' ==) accounts:logout' and 'accounts:signup'(custom view) </li>
+        <li>Make 4 html files for password_reset. First one ('password_reset_form.html')
+            should have a <a href="">to reset 'password_reset'</a> but not 'accounts:password_reset' (belongs to contrib)</li>
     </ul>
     <hr>
 
     <li></li>
 </ol>
-<h3>Conclusuion: for login (need html), for logout (need url,view (optional html)), for signup =(form,view,html)</h3>
+<h3>Conclusion:<br>
+    login (need contrib register/login.html),<br>
+    logout (need custom url,view (optional html and form)),<br>
+    signup (need custom url and view + optional form for email)</h3>
 {% endblock %}

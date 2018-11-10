@@ -12,6 +12,18 @@
 
         </form>
 
+            <small class="text-muted">
+                <!-- ml-2 class == just to separate from text == left link a -->
+                Don't have an account?<a class="ml-2" href="{% url 'accounts:signup' %}">Sign Up  now</a>
+            </small>
+            <hr>
+            <br><br>
+            <small class="text-muted">
+                Forgot your password?<a class="ml-2" href="{% url 'password_reset' %} ">Reset your password now</a>
+            </small>
+
+
+
     </div>
 
 </div>

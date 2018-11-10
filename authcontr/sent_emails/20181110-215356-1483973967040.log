@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: diafox2015@gmail.com
+Date: Sat, 10 Nov 2018 20:53:56 -0000
+Message-ID: <20181110205356.1928.34154@DESKTOP-SLDJKMN>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/accounts/reset/Ng/516-93335e93d68d727f81b7/
+
+Your username, in case you've forgotten: zaza
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------

@@ -6,6 +6,7 @@ from django.contrib.auth.views import LoginView,LogoutView # singup don't exist 
 from django.contrib.auth import logout # to use with redirect view
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import UserCreateForm,LogoutForm
+from django.contrib import messages
 
 class ProfileView(LoginRequiredMixin,generic.DetailView):
     template_name = 'accounts/profile.html'
@@ -43,3 +44,10 @@ class SignUpView(generic.CreateView):
     form_class = UserCreateForm
     template_name = 'accounts/signup.html'
     success_url = reverse_lazy('accounts:login')
+
+# class MyPasswordChangeView(PasswordChangeView):
+    #docs built-in success_url = reverse_lazy('password_change_done')
+    success_url = reverse_lazy('accounts:profile_view')
+    def form_valid(self,form):
+        messages.success(self.request,'Password has been updated!')
+        return super().form_valid(form)
