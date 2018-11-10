@@ -1,5 +1,35 @@
 {% extends 'basic.html' %}
+{% load crispy_forms_tags %}
 {% block title %}layout {% endblock %}
 {% block content %}
-<h1>laoytout.hmtl </h1>
+<h1>Instructions: how to work with dj.contrib.auth </h1>
+<p>Note: here used a built-in login redirect to the profile(because I did it)</p>
+<p>make an expected folder= registration for login 100% and for logout optional</p>
+<ol>
+    <li>
+        <ul>In urls.py
+            <li>project urlpatterns: make a clear "from accounts import urls as user_urls"</li>
+            <li>app urlpatterns: login = nvt logout = should be represented</li>
+        </ul>
+    </li>
+    <hr>
+    <li>
+        <ul>In views.py
+            <li>SignUp view == doesn't exist because you have to make it custom<</li>
+            <li>No need for Login in views.py == just import in urls.py from the module</li>
+            <li>You need LogoutView otherwise you'll get admin layout
+            For logout: need adjustment = reverse_lazy (to prevent built-in admin layout)</li>
+            <li>For log out: 2 options (through get and post request)</li>
+        </ul>
+    </li>
+    <hr>
+    <ul>In html's
+        <li>For login you have to make a html file with login form (username and psw)</li>
+        <li> in menu: link in url tag thorough 'accounts:login' or 'accounts:logout' otherwise built-in behav </li>
+    </ul>
+    <hr>
+
+    <li></li>
+</ol>
+<h3>Conclusuion: for login (need html), for logout (need url,view (optional html)), for signup =(form,view,html)</h3>
 {% endblock %}

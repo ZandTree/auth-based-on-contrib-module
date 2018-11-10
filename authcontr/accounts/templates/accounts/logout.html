@@ -1,0 +1,29 @@
+{% extends 'basic.html'%}
+{% load crispy_forms_tags %}
+{% block title %}Log Out | {{block.super}}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <h4>Are you sure you want to log out?</h4>
+        <form  action="{% url 'accounts:logout' %}" method="post">
+            {% csrf_token %}
+            {{form|crispy }}
+            <input type="submit" class="btn btn-danger" value="Log Out">
+
+        </form>
+        <small class="text-muted">This site works best if you use it often</small>
+
+    <!-- </div>
+    <!-- let op: get not safe enough with its' method = .get() -->
+    <!-- <div class="content-section">
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                <a href=" url 'account:login'}">Log In Again</a>
+            </small>
+        </div>
+    </div> -->
+
+
+</div>
+{% endblock %}
