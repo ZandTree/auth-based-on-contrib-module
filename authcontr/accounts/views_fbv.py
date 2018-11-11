@@ -58,46 +58,52 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        #login(request, user)
+        login(request, user)
         # return redirect('home')
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
+#cbv without email confirmation
+# class SignUpView(generic.CreateView):
+#     form_class = UserCreateForm
+#     template_name = 'accounts/signup.html'
+#     success_url = reverse_lazy('accounts:login')
+#
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreateForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
+            current_site = get_current_site(request)
+            mail_subject = 'Activate your blog account.'
+            message = render_to_string('acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':account_activation_token.make_token(user),
+            })
+            to_email = form.cleaned_data.get('email')
+            email = EmailMessage(
+                        mail_subject, message, to=[to_email]
+            )
+            email.send()
+            return HttpResponse('Please confirm your email address to complete the registration')
+    else:
+        form = UserCreateForm()
+    return render(request, 'accounts/signup.html', {'form': form})
 
 
-class SignUpView(generic.CreateView):
-    form_class = UserCreateForm
-    redirect_field_name = "next"
-    template_name = 'accounts/signup.html'
-    #success_url = reverse_lazy('accounts:login')
-    def form_valid(self,form):
-        messages.success(self.request,'Account has been created! Confirm it')
-        user = form.save(commit=False)
-        user.is_active = False
-        user.save()
-        current_site = get_current_site(self.request)
-        mail_subject = 'Activate your blog account.'
-        message = render_to_string('acc_active_email.html', {
-            'user': user,
-            'domain': current_site.domain,
-            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-            'token':account_activation_token.make_token(user),
-        })
-        to_email = form.cleaned_data.get('email')
-        email = EmailMessage(
-                    mail_subject, message, to=[to_email]
-        )
-        email.send()
-        #super().form_valid(form)
-        return HttpResponse('Please confirm your email address to complete the registration')
 
-        def get(self,request):
-            return self.form
+
+
 
 
 # class MyPasswordChangeView(PasswordChangeView):
-#     docs built-in success_url = reverse_lazy('password_change_done')
-#     success_url = reverse_lazy('accounts:profile')
-#     def form_valid(self,form):
-#         messages.success(self.request,'Password has been updated!')
-#         return super().form_valid(form)
+    #docs built-in success_url = reverse_lazy('password_change_done')
+    success_url = reverse_lazy('accounts:profile_view')
+    def form_valid(self,form):
+        messages.success(self.request,'Password has been updated!')
+        return super().form_valid(form)

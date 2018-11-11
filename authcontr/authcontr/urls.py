@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views import generic
 from accounts import urls as user_urls
-from accounts.views import activate,signup
+from accounts.views import activate  #,signup
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

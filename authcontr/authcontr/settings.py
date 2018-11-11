@@ -121,7 +121,7 @@ EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD #'yourpassword'
 EMAIL_PORT = 587
 
 
-
+# LOGIN_REDIRECT_URL ='/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
