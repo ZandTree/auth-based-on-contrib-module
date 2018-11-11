@@ -23,6 +23,17 @@
     {% include '_extentions/_nav.html'%}
 
     <main role="main" class="container">
+        <div class="row">
+            <div class="col col-6">
+                {% if messages%}
+                    {% for message in messages %}
+                    <div class="alert alert-{{message.tags}}">
+                        {{message}}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
         {%block content %}
 
       <div class="starter-template">
